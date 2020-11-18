@@ -12,7 +12,7 @@ public class ServidorValidator {
 	private ServerSocket sckServidor;
 	
 	public ServidorValidator() throws IOException {
-		this.sckServidor = new ServerSocket(5000);
+		this.sckServidor = new ServerSocket(4000);
 		
 		for (;;) {
 			Socket validator;
@@ -46,18 +46,19 @@ public class ServidorValidator {
 				digitoCPF = Integer.valueOf (
 						strCpf.substring(nCount - 1, nCount)).intValue();
 				
-				//
+				//multiplica a ultima casa por 2, por 3 e a seguinto por 4 e segue adiante.
 				
 				d1 = d1 + (11 - nCount) * digitoCPF;
 				
-				//
+				//repetição do procedimento incluindo o digito verificado na etapa anterior
 				
 				d2 = d2 + (12 - nCount) * digitoCPF;
 			}
-			//
+			
+			//primeiro resto da divisão por 11
 			resto = (d1%11);
 			
-			//
+			//verificar o digito principal
 			
 			if (resto <2) {
 				digito1 = 0;
@@ -66,28 +67,25 @@ public class ServidorValidator {
 			}
 			
 			d2=+ 2 * digito1;
-			//
-			
+
 			resto = (d2%11);
 			
-			//
-			
+
 			if (resto < 2) {
 				digito2 = 0;
 			} else {
 				digito2 = 11 - resto;
 			}
 			
-			//
+			//digito verificador do cpf recebido
 			
 			String nDigVerific = strCpf.substring(strCpf.length() -2,
 					strCpf.length());
 			
-			//
+			//concatenação dos restos
 			
 			nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
 			
-			//
 			
 			saida.println(nDigVerific.equals(nDigResult));
 			
